@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+	<title>Patient registration</title>
+</head>
+
+<body>
+
+<div class="container">
+
+	<h3>Patient Directory</h3>
+	<hr>
+
+	<!-- Add a button -->
+	<a th:href="@{/patient/showFormForAdd}"
+		class="btn btn-primary btn-sm mb-3">
+		Add Patient
+	</a>
+
+	<table class="table table-bordered table-striped">
+		<thead class="table-dark">
+			<tr>
+				<th>Name</th>
+				<th>Gender</th>
+				<th>Dop</th>
+				<th>Adress</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		
+		<tbody>
+			<tr th:each="tempPatients : ${patient}">
+			
+				<td th:text="${tempPatients.name}" />
+				<td th:text="${tempPatients.gender}" />
+				<td th:text="${tempPatients.dob}" />
+				<td th:text="${tempPatients.address}" />
+				<td>
+					<div class="row">
+
+						<div class="col-small">
+							<!-- Add "update" button/link -->
+							<form action="#" th:action="@{/patient/showFormForUpdate}" method="POST">
+
+								<input type="hidden" name="patientId" th:value="${tempPatients.id}" />
+								<button type="submit" class="btn btn-info btn-sm me-1" style="float:left;">Update</button>
+
+							</form>
+
+							<div sec:authorize="hasRole('ADMIN')">
+							<!-- Add "delete" button/link -->
+							<form action="#" th:action="@{/patient/delete}" method="POST">
+
+								<input type="hidden" name="patientId" th:value="${tempPatients.id}" />
+								<button type="submit" class="btn btn-danger btn-sm"
+										onclick="if (!(confirm('Are you sure you want to delete this employee?'))) return false">
+									Delete
+								</button>
+
+								</form>
+							</div>
+						</div>
+
+					</div>
+				</td>
+			</tr>
+		</tbody>		
+	</table>
+	
+</div>
+	
+</body>
+</html>
+
+
+
